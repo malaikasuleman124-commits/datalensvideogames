@@ -1,143 +1,85 @@
-# Implementation Plan
+# Implementation Plan: DataLens (Video Game Sales)
 
-> **Template instructions:** This plan describes the overall approach to building DataLens — the order of work, the major phases, the risks, and the checkpoints. It is produced after the spec is complete, by invoking the `planning-and-task-breakdown` skill. The task-level detail goes in `todo.md`.
->
-> **Delete this instruction block when the plan is complete.**
+This document breaks down the implementation of the DataLens project into 7 manageable tasks. Each task touches roughly 5 files and includes clear acceptance criteria.
 
----
+## Task 1: Basic App Setup & Scaffolding
+**Goal:** Establish the foundation for both frontend and backend.
+- `backend/app/main.py`
+- `backend/app/routers/health.py`
+- `backend/tests/test_health.py`
+- `frontend/src/App.tsx`
+- `frontend/src/main.tsx`
 
-## Plan Summary
-
-[TODO — One paragraph describing the overall build strategy. Example: "We will build DataLens in thin vertical slices, starting with a minimal upload-and-display flow, then adding visualization, then filters, then chat, and finally the executive summary. Each slice is shippable (the app runs) before we move to the next. We estimate X total tasks across 3 weeks of work."]
-
----
-
-## Major Phases and Milestones
-
-### Phase 1: Foundation (Week 1)
-
-**Goal:** Spec is solid. Plan is solid. Task breakdown is solid. Minimal scaffolding exists.
-
-- Clone starter template, confirm it builds
-- Complete SPEC.md
-- Complete plan.md (this document) and todo.md
-- Set up the agent with skills properly discoverable
-- Confirm development environment works end-to-end (agent can run tests, agent can commit)
-
-**Checkpoint:** Can we run `pytest` and `vitest` and have empty test suites pass? Is the skills folder correctly installed?
-
-### Phase 2: Core Upload and Profiling (early Week 2)
-
-**Goal:** User can upload a CSV and see it profiled.
-
-- CSV upload endpoint (FastAPI) with Pydantic validation
-- SQLite schema and persistence
-- Data profiling logic (column types, nulls, basic stats)
-- Frontend upload component
-- Frontend profile display
-
-**Checkpoint:** Upload a real CSV, see column stats on the page.
-
-### Phase 3: Dashboard Visualizations (mid Week 2)
-
-**Goal:** Dashboard with 4-6 auto-generated visualizations.
-
-- Chart component architecture
-- Auto-selection logic (pick chart types based on column types)
-- Render 4-6 visualizations from uploaded data
-
-**Checkpoint:** Upload a CSV, see meaningful visualizations render.
-
-### Phase 4: Global Filters (late Week 2)
-
-**Goal:** Filters apply across all dashboard visualizations.
-
-- Filter UI (dropdowns, date pickers, sliders)
-- Shared filter state
-- Dashboard responds to filter changes
-
-**Checkpoint:** Change a filter, all charts update together.
-
-### Phase 5: LLM Chat Interface (end of Week 2 / early Week 3)
-
-**Goal:** User can ask questions in natural language and get data-grounded answers.
-
-- Backend tool-use setup (expose query functions to LLM)
-- LLM provider abstraction
-- Frontend chat component
-- End-to-end chat flow
-
-**Checkpoint:** Ask "which X has the highest Y?" and get a correct, data-grounded answer.
-
-### Phase 6: Executive Summary (mid Week 3)
-
-**Goal:** Auto-generated narrative summary of the dataset.
-
-- Summary generation endpoint
-- Prompt engineering for business-analyst tone
-- Frontend summary display
-
-**Checkpoint:** Uploaded dataset produces a sensible executive summary.
-
-### Phase 7: Polish and Documentation (Week 3)
-
-**Goal:** The app is demo-ready and the docs are complete.
-
-- Bug fixes from mid-project video feedback
-- UI polish
-- README completion
-- ADRs (minimum 3)
-- Final report
-- Dry-run setup on a clean machine
-
-**Checkpoint:** A classmate can clone the repo and run it without help.
+**Acceptance Criteria:** Backend serves a healthy `GET /health` endpoint. Frontend renders a basic React App shell. Vitest and pytest suites execute successfully.
 
 ---
 
-## Risks and Mitigations
+## Task 2: File Upload & SQLite Data Persistence
+**Goal:** Allow users to upload the Video Game Sales CSV and store it.
+- `backend/app/models/dataset.py` (Pydantic schemas including `VideoGameSale`)
+- `backend/app/routers/upload.py`
+- `backend/app/services/data_manager.py` (SQLite persistence)
+- `backend/tests/test_upload.py`
+- `frontend/src/components/UploadForm.tsx`
 
-[TODO — Be realistic about what could go wrong. For each risk, note how you'll mitigate it.]
-
-| Risk | Likelihood | Mitigation |
-|------|-----------|------------|
-| [e.g., LLM API rate limits during development] | [Med] | [Use free tier initially, have backup provider ready] |
-| [e.g., Dataset has unexpected data quality issues] | [Med] | [Spend Day 2 thoroughly exploring the dataset before speccing] |
-| [e.g., Uneven teammate availability during Week 2] | [Low] | [Pair-program core features; async for polish tasks] |
-| [e.g., Agent generates code that doesn't work with our stack choice] | [Low] | [Review agent output before running; use ADRs to lock decisions] |
-
----
-
-## Parallel Work Opportunities
-
-[TODO — In a pair, one person can work on backend while the other works on frontend, once the interface contract is clear. Identify which tasks can run in parallel vs must be sequential.]
-
-- [Task A] and [Task B] can be done in parallel because they don't share files.
-- [Task C] must come after [Task A] because it depends on the API shape defined there.
+**Acceptance Criteria:** User can upload a CSV via UI. Backend validates size (<50MB) and stores the data in SQLite.
 
 ---
 
-## Dependency Notes
+## Task 3: Data Profiling API & UI
+**Goal:** Analyze the uploaded dataset and show high-level metrics.
+- `backend/app/services/profiler.py` (Pandas profiling logic)
+- `backend/app/routers/profile.py`
+- `backend/tests/test_profiler.py`
+- `frontend/src/lib/api.ts` (Centralized Axios/Fetch client)
+- `frontend/src/components/SummaryStats.tsx`
 
-[TODO — Critical dependencies between tasks. Example:
-
-- Frontend upload component depends on backend upload endpoint interface being defined in ADR-001
-- Chart auto-selection depends on data profiling output format
-- LLM chat tool-use depends on SQLite query helpers being in place
-]
-
----
-
-## Verification Checkpoints
-
-Between phases, we verify:
-
-1. All tests pass (`pytest` and `vitest`)
-2. The app runs without errors
-3. The git log shows atomic commits for this phase's work
-4. No TODOs or placeholders have accidentally shipped
-
-If any of these fail, we stop and fix before moving to the next phase.
+**Acceptance Criteria:** Backend returns total games, min/max years, and total global sales. Frontend displays these as KPI cards.
 
 ---
 
-*Plan version: 1.0 | Last updated: [date]*
+## Task 4: Visualizations & Dashboard Layout
+**Goal:** Render the charts for the Video Game Sales data.
+- `frontend/src/components/Dashboard.tsx`
+- `frontend/src/components/charts/SalesByGenreChart.tsx`
+- `frontend/src/components/charts/TopPlatformsChart.tsx`
+- `frontend/src/components/charts/SalesOverTimeChart.tsx`
+- `frontend/tests/Dashboard.test.tsx`
+
+**Acceptance Criteria:** The UI displays 3 functional `Recharts` graphs utilizing the dataset endpoint.
+
+---
+
+## Task 5: Interactive Filtering Logic
+**Goal:** Make the dashboard interactive by adding genre/platform filters.
+- `backend/app/routers/data.py` (Endpoints to query filtered slices)
+- `backend/tests/test_data.py`
+- `frontend/src/components/Filters.tsx`
+- `frontend/src/hooks/useDataset.ts` (State management)
+- `frontend/tests/Filters.test.tsx`
+
+**Acceptance Criteria:** User can select a specific Platform/Genre. The frontend fetches filtered data and updates all charts within 500ms.
+
+---
+
+## Task 6: LLM Chat Integration
+**Goal:** Implement the Gemini-powered chat interface.
+- `backend/app/services/llm.py` (Gemini API integration & tool definitions)
+- `backend/app/routers/chat.py`
+- `backend/tests/test_chat.py`
+- `frontend/src/components/ChatPanel.tsx`
+- `frontend/src/components/ChatMessage.tsx`
+
+**Acceptance Criteria:** User can ask "What is the top-selling game?". The backend queries the LLM, which uses a data retrieval tool to return the correct answer.
+
+---
+
+## Task 7: Executive Summary & Final Polish
+**Goal:** Auto-generate a narrative summary of the data on upload.
+- `backend/app/routers/summary.py` (Triggers LLM summary generation)
+- `backend/tests/test_summary.py`
+- `frontend/src/components/ExecutiveSummary.tsx`
+- `frontend/src/pages/MainPage.tsx` (Integrates Upload, Dashboard, Chat)
+- `frontend/tests/MainPage.test.tsx`
+
+**Acceptance Criteria:** An AI-generated summary appears above the dashboard after upload. The main page is fully responsive and stylized with Tailwind/Shadcn.

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # DataLens — [Your Team Name]
 
 > **Starter template:** This README is a template. Replace every section marked `[TODO]` with your actual content as you build. The quality of this README is part of your grade — see the grading rubric in the Final Project Specification.
@@ -155,3 +156,6 @@ This project was developed as part of the Spring 2026 Strategic Generative AI fo
 ## License
 
 [TODO — Choose a license or remove this section.]
+=======
+# datalensvideogames
+>>>>>>> f87905755347edaaeafe2499e23fafa1f0955d6d
