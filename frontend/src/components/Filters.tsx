@@ -26,7 +26,7 @@ export const Filters: React.FC<FiltersProps> = ({
   if (options.genres.length === 0 && options.platforms.length === 0) return null;
 
   return (
-    <div className="w-full max-w-6xl mx-auto mt-8 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-3xl shadow-lg border border-gray-100 dark:border-gray-800 transition-all duration-500">
+    <div className="w-full max-w-6xl mx-auto mt-8 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8 p-6 glass-container rounded-[2rem] hover:shadow-xl transition-all duration-500">
       <div className="flex items-center text-blue-600 dark:text-blue-400 font-bold shrink-0 uppercase text-xs tracking-widest">
         <FilterIcon className="h-4 w-4 mr-2" />
         Filter Data

@@ -39,7 +39,7 @@ export const ExecutiveSummary: React.FC<ExecutiveSummaryProps> = ({ refreshTrigg
   if (!summary || summary.includes("No data available")) return null;
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800 rounded-2xl shadow-sm overflow-hidden relative group transition-all hover:shadow-md">
+    <div className="w-full max-w-5xl mx-auto mt-8 p-8 glass-container rounded-[2rem] relative overflow-hidden group">
       <div className="absolute top-[-20px] right-[-20px] p-2 opacity-5 group-hover:opacity-10 transition-opacity">
         <Sparkles className="h-32 w-32 text-blue-600 dark:text-blue-400" />
       </div>

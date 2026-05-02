@@ -53,7 +53,7 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onUploadSuccess }) => {
   };
 
   return (
-    <div className="w-full max-w-md p-8 bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 transition-all duration-500">
+    <div className="w-full max-w-md p-8 glass-container rounded-[2.5rem] transition-all duration-500">
       <div 
         className={cn(
           "border-2 border-dashed rounded-2xl p-10 text-center transition-all duration-300 cursor-pointer group",
