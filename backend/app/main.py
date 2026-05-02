@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import health, upload
+from app.routers import health, upload, profile
 from app.services.data_manager import init_db
 
 @asynccontextmanager
@@ -23,6 +23,7 @@ app.add_middleware(
 # Include routers
 app.include_router(health.router)
 app.include_router(upload.router)
+app.include_router(profile.router)
 
 if __name__ == "__main__":
     import uvicorn

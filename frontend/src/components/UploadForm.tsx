@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
+import { api } from '../lib/api';
 import { Upload, FileType, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -8,7 +8,11 @@ function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));
 }
 
-export const UploadForm: React.FC = () => {
+interface UploadFormProps {
+  onUploadSuccess?: () => void;
+}
+
+export const UploadForm: React.FC<UploadFormProps> = ({ onUploadSuccess }) => {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState<string>('');
@@ -34,18 +38,14 @@ export const UploadForm: React.FC = () => {
     setStatus('uploading');
     setMessage('');
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
-      const response = await axios.post('http://localhost:8000/api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await api.uploadDataset(file);
       
       setStatus('success');
       setMessage(`Success! ${response.data.rows_inserted} rows inserted.`);
+      if (onUploadSuccess) {
+        onUploadSuccess();
+      }
     } catch (error: any) {
       setStatus('error');
       setMessage(error.response?.data?.detail || 'An error occurred during upload.');
