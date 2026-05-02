@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../../lib/api';
+import { api, Filters } from '../../lib/api';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 interface GenreData {
@@ -9,12 +9,12 @@ interface GenreData {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658', '#d0ed57', '#a4de6c', '#8dd1e1', '#83a6ed', '#8e4585'];
 
-export const SalesByGenreChart: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
+export const SalesByGenreChart: React.FC<{ refreshTrigger: number, filters: Filters }> = ({ refreshTrigger, filters }) => {
   const [data, setData] = useState<GenreData[]>([]);
 
   useEffect(() => {
-    api.getGenreSales().then(setData).catch(console.error);
-  }, [refreshTrigger]);
+    api.getGenreSales(filters).then(setData).catch(console.error);
+  }, [refreshTrigger, filters]);
 
   if (!data.length) return null;
 

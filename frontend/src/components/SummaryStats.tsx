@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../lib/api';
+import { api, Filters } from '../lib/api';
 import { Gamepad2, CalendarDays, DollarSign, Loader2 } from 'lucide-react';
 
 interface ProfileData {
@@ -11,9 +11,10 @@ interface ProfileData {
 
 interface SummaryStatsProps {
   refreshTrigger: number;
+  filters: Filters;
 }
 
-export const SummaryStats: React.FC<SummaryStatsProps> = ({ refreshTrigger }) => {
+export const SummaryStats: React.FC<SummaryStatsProps> = ({ refreshTrigger, filters }) => {
   const [data, setData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +22,7 @@ export const SummaryStats: React.FC<SummaryStatsProps> = ({ refreshTrigger }) =>
     const fetchProfile = async () => {
       setLoading(true);
       try {
-        const profile = await api.getProfile();
+        const profile = await api.getProfile(filters);
         setData(profile);
       } catch (error) {
         console.error('Failed to fetch profile', error);
@@ -31,7 +32,7 @@ export const SummaryStats: React.FC<SummaryStatsProps> = ({ refreshTrigger }) =>
     };
 
     fetchProfile();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, filters]);
 
   if (loading) {
     return (

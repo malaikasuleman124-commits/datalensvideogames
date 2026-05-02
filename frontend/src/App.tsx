@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { UploadForm } from './components/UploadForm';
 import { SummaryStats } from './components/SummaryStats';
 import { Dashboard } from './components/Dashboard';
+import { Filters } from './components/Filters';
+import { useDataset } from './hooks/useDataset';
 
 function App() {
   const [refreshStats, setRefreshStats] = useState(0);
+  const { filters, setGenre, setPlatform, resetFilters } = useDataset();
 
   const handleUploadSuccess = () => {
     setRefreshStats((prev) => prev + 1);
+    resetFilters();
   };
 
   return (
@@ -21,8 +25,16 @@ function App() {
         <UploadForm onUploadSuccess={handleUploadSuccess} />
       </div>
 
-      <SummaryStats refreshTrigger={refreshStats} />
-      <Dashboard refreshTrigger={refreshStats} />
+      <Filters 
+        filters={filters} 
+        onGenreChange={setGenre} 
+        onPlatformChange={setPlatform} 
+        onReset={resetFilters}
+        refreshTrigger={refreshStats}
+      />
+
+      <SummaryStats refreshTrigger={refreshStats} filters={filters} />
+      <Dashboard refreshTrigger={refreshStats} filters={filters} />
     </div>
   );
 }

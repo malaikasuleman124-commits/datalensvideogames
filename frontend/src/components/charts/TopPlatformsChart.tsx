@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../../lib/api';
+import { api, Filters } from '../../lib/api';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface PlatformData {
@@ -7,12 +7,12 @@ interface PlatformData {
   sales: number;
 }
 
-export const TopPlatformsChart: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
+export const TopPlatformsChart: React.FC<{ refreshTrigger: number, filters: Filters }> = ({ refreshTrigger, filters }) => {
   const [data, setData] = useState<PlatformData[]>([]);
 
   useEffect(() => {
-    api.getPlatformSales().then(setData).catch(console.error);
-  }, [refreshTrigger]);
+    api.getPlatformSales(filters).then(setData).catch(console.error);
+  }, [refreshTrigger, filters]);
 
   if (!data.length) return null;
 

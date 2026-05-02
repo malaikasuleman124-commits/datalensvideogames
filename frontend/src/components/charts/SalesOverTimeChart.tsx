@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { api } from '../../lib/api';
+import { api, Filters } from '../../lib/api';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface TimeData {
@@ -7,12 +7,12 @@ interface TimeData {
   sales: number;
 }
 
-export const SalesOverTimeChart: React.FC<{ refreshTrigger: number }> = ({ refreshTrigger }) => {
+export const SalesOverTimeChart: React.FC<{ refreshTrigger: number, filters: Filters }> = ({ refreshTrigger, filters }) => {
   const [data, setData] = useState<TimeData[]>([]);
 
   useEffect(() => {
-    api.getSalesOverTime().then(setData).catch(console.error);
-  }, [refreshTrigger]);
+    api.getSalesOverTime(filters).then(setData).catch(console.error);
+  }, [refreshTrigger, filters]);
 
   if (!data.length) return null;
 

@@ -1,15 +1,21 @@
 import pandas as pd
 from app.services.data_manager import engine
 
-def get_data_profile():
+def get_data_profile(genre: str = None, platform: str = None):
     """
     Reads the 'game_sales' table into a Pandas DataFrame
-    and computes high-level profiling metrics.
+    and computes high-level profiling metrics with optional filtering.
     """
     try:
         # Load data from SQLite
         df = pd.read_sql_table('game_sales', con=engine)
         
+        # Apply filters
+        if genre:
+            df = df[df['genre'] == genre]
+        if platform:
+            df = df[df['platform'] == platform]
+            
         if df.empty:
             return {
                 "total_games": 0,
