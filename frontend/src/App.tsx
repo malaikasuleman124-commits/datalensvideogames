@@ -4,6 +4,7 @@ import { SummaryStats } from './components/SummaryStats';
 import { Dashboard } from './components/Dashboard';
 import { Filters } from './components/Filters';
 import { useDataset } from './hooks/useDataset';
+import { ChatPanel } from './components/ChatPanel';
 
 function App() {
   const [refreshStats, setRefreshStats] = useState(0);
@@ -35,6 +36,8 @@ function App() {
 
       <SummaryStats refreshTrigger={refreshStats} filters={filters} />
       <Dashboard refreshTrigger={refreshStats} filters={filters} />
+      
+      <ChatPanel />
     </div>
   );
 }

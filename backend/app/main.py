@@ -1,8 +1,12 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import health, upload, profile, data
+from dotenv import load_dotenv
+from app.routers import health, upload, profile, data, chat
 from app.services.data_manager import init_db
+
+# Load environment variables
+load_dotenv()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -25,6 +29,7 @@ app.include_router(health.router)
 app.include_router(upload.router)
 app.include_router(profile.router)
 app.include_router(data.router)
+app.include_router(chat.router)
 
 if __name__ == "__main__":
     import uvicorn
