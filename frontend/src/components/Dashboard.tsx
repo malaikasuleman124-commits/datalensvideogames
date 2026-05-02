@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { SalesByGenreChart } from './charts/SalesByGenreChart';
 import { TopPlatformsChart } from './charts/TopPlatformsChart';
 import { SalesOverTimeChart } from './charts/SalesOverTimeChart';

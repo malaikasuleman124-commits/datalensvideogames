@@ -47,39 +47,39 @@ export const SummaryStats: React.FC<SummaryStatsProps> = ({ refreshTrigger, filt
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mx-auto mt-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl mx-auto mt-8">
       {/* Total Games */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 flex items-center space-x-4 transition-all hover:shadow-lg">
-        <div className="p-3 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-lg">
+      <div className="kpi-card flex items-center space-x-4">
+        <div className="p-3 bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 rounded-2xl">
           <Gamepad2 className="h-8 w-8" />
         </div>
         <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Games</p>
-          <h3 className="text-2xl font-bold">{data.total_games.toLocaleString()}</h3>
+          <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Total Games</p>
+          <h3 className="text-3xl font-black">{data.total_games.toLocaleString()}</h3>
         </div>
       </div>
 
       {/* Years Covered */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 flex items-center space-x-4 transition-all hover:shadow-lg">
-        <div className="p-3 bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 rounded-lg">
+      <div className="kpi-card flex items-center space-x-4">
+        <div className="p-3 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-2xl">
           <CalendarDays className="h-8 w-8" />
         </div>
         <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Years Covered</p>
-          <h3 className="text-2xl font-bold">
+          <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Years Covered</p>
+          <h3 className="text-3xl font-black">
             {data.min_year && data.max_year ? `${data.min_year} - ${data.max_year}` : 'N/A'}
           </h3>
         </div>
       </div>
 
       {/* Total Sales */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 flex items-center space-x-4 transition-all hover:shadow-lg">
-        <div className="p-3 bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 rounded-lg">
+      <div className="kpi-card flex items-center space-x-4">
+        <div className="p-3 bg-purple-100 dark:bg-purple-900/40 text-purple-600 dark:text-purple-400 rounded-2xl">
           <DollarSign className="h-8 w-8" />
         </div>
         <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Global Sales (M)</p>
-          <h3 className="text-2xl font-bold">{data.total_global_sales.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h3>
+          <p className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Global Sales (M)</p>
+          <h3 className="text-3xl font-black">{data.total_global_sales.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}</h3>
         </div>
       </div>
     </div>

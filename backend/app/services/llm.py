@@ -80,4 +80,26 @@ class ChatService:
         except Exception as e:
             return f"Error communicating with Gemini: {str(e)}"
 
+    def generate_executive_summary(self, profile_data: dict, genre_stats: list):
+        if not self.initialized:
+            if not self._initialize():
+                return "AI Summary is currently unavailable. Please check your API configuration."
+        
+        prompt = f"""
+        Provide a concise, professional 2-3 sentence executive summary of this video game sales dataset.
+        Key Stats:
+        - Total Games: {profile_data.get('total_games')}
+        - Year Range: {profile_data.get('min_year')} to {profile_data.get('max_year')}
+        - Total Global Sales: {profile_data.get('total_global_sales')} million units
+        - Top Genres: {', '.join([g.get('genre', 'Unknown') for g in genre_stats[:3]])}
+        
+        The summary should sound insightful, professional, and highlight the scale or dominant trends in the data. 
+        Do not use markdown formatting like bolding or bullet points. Just return plain text.
+        """
+        try:
+            response = self.model.generate_content(prompt)
+            return response.text.strip()
+        except Exception as e:
+            return f"Unable to generate summary at this time: {str(e)}"
+
 chat_service = ChatService()

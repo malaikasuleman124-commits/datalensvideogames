@@ -72,5 +72,20 @@
   }
   body {
     @apply bg-background text-foreground;
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .chart-container {
+    @apply bg-white dark:bg-gray-900/50 backdrop-blur-sm p-6 rounded-3xl border border-gray-200 dark:border-gray-800 shadow-sm transition-all duration-500 hover:shadow-xl hover:shadow-blue-500/5 hover:border-blue-500/20;
+  }
+  
+  .glass-card {
+    @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-gray-200 dark:border-gray-800 shadow-sm transition-all duration-300;
+  }
+  
+  .kpi-card {
+    @apply bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:border-blue-500/30;
   }
 }

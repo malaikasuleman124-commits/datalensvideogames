@@ -53,12 +53,12 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onUploadSuccess }) => {
   };
 
   return (
-    <div className="w-full max-w-md p-6 bg-card text-card-foreground rounded-xl shadow-lg border border-border bg-white dark:bg-gray-800">
+    <div className="w-full max-w-md p-8 bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-800 transition-all duration-500">
       <div 
         className={cn(
-          "border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer",
-          status === 'error' ? "border-red-300 bg-red-50 dark:border-red-800 dark:bg-red-900/20" : "border-gray-300 hover:border-blue-500 hover:bg-blue-50 dark:border-gray-700 dark:hover:border-blue-500 dark:hover:bg-blue-900/20",
-          file && status !== 'error' ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20" : ""
+          "border-2 border-dashed rounded-2xl p-10 text-center transition-all duration-300 cursor-pointer group",
+          status === 'error' ? "border-red-200 bg-red-50 dark:border-red-900/30 dark:bg-red-900/10" : "border-gray-100 bg-gray-50/50 hover:border-blue-500 hover:bg-blue-50/50 dark:border-gray-800 dark:bg-gray-800/50 dark:hover:border-blue-500/50 dark:hover:bg-blue-900/10",
+          file && status !== 'error' ? "border-blue-500 bg-blue-50/50 dark:border-blue-500/30 dark:bg-blue-900/20" : ""
         )}
         onClick={() => fileInputRef.current?.click()}
       >
@@ -71,26 +71,30 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onUploadSuccess }) => {
         />
         
         {file ? (
-          <div className="flex flex-col items-center space-y-2">
-            <FileType className="h-10 w-10 text-blue-500" />
-            <p className="text-sm font-medium">{file.name}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{(file.size / (1024 * 1024)).toFixed(2)} MB</p>
+          <div className="flex flex-col items-center space-y-3">
+            <div className="p-4 bg-blue-100 dark:bg-blue-900/40 rounded-2xl">
+              <FileType className="h-10 w-10 text-blue-600 dark:text-blue-400" />
+            </div>
+            <p className="text-sm font-bold text-gray-700 dark:text-gray-200 truncate max-w-[200px]">{file.name}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{(file.size / (1024 * 1024)).toFixed(2)} MB • Ready to analyze</p>
           </div>
         ) : (
-          <div className="flex flex-col items-center space-y-2">
-            <Upload className="h-10 w-10 text-gray-400 mb-2" />
-            <p className="text-sm font-medium">Click or drag CSV file here</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">Max file size 50MB</p>
+          <div className="flex flex-col items-center space-y-3">
+            <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/40 transition-colors">
+              <Upload className="h-10 w-10 text-gray-400 group-hover:text-blue-500 transition-colors" />
+            </div>
+            <p className="text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-tight">Drop your CSV here</p>
+            <p className="text-xs text-gray-400">or click to browse files (max 50MB)</p>
           </div>
         )}
       </div>
 
       {message && (
         <div className={cn(
-          "mt-4 p-3 rounded-md flex items-start space-x-2 text-sm",
-          status === 'error' ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+          "mt-6 p-4 rounded-2xl flex items-center space-x-3 text-xs font-bold uppercase tracking-wider",
+          status === 'error' ? "bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-400" : "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400"
         )}>
-          {status === 'error' ? <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" /> : <CheckCircle className="h-4 w-4 mt-0.5 shrink-0" />}
+          {status === 'error' ? <AlertCircle className="h-4 w-4 shrink-0" /> : <CheckCircle className="h-4 w-4 shrink-0" />}
           <span>{message}</span>
         </div>
       )}
@@ -98,15 +102,15 @@ export const UploadForm: React.FC<UploadFormProps> = ({ onUploadSuccess }) => {
       <button
         onClick={handleUpload}
         disabled={!file || status === 'uploading'}
-        className="w-full mt-4 bg-blue-600 text-white hover:bg-blue-700 py-2 px-4 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center transition-colors"
+        className="w-full mt-6 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:hover:bg-blue-600 py-4 px-6 rounded-2xl font-black uppercase tracking-widest text-xs shadow-lg shadow-blue-500/20 active:scale-[0.98] transition-all flex justify-center items-center"
       >
         {status === 'uploading' ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Uploading...
+            Processing...
           </>
         ) : (
-          'Upload Dataset'
+          'Analyze Dataset'
         )}
       </button>
     </div>

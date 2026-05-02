@@ -19,28 +19,37 @@ export const SalesByGenreChart: React.FC<{ refreshTrigger: number, filters: Filt
   if (!data.length) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 h-[400px]">
-      <h3 className="text-lg font-semibold mb-4 text-center text-gray-800 dark:text-gray-100">Global Sales by Genre</h3>
-      <ResponsiveContainer width="100%" height="85%">
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={100}
-            fill="#8884d8"
-            paddingAngle={2}
-            dataKey="sales"
-          >
-            {data.map((_, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip formatter={(value: number) => [`${value}M`, 'Sales']} />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+    <div className="chart-container h-[450px]">
+      <h3 className="text-xl font-black text-gray-800 dark:text-gray-100 mb-6 flex items-center">
+        <span className="w-2 h-6 bg-blue-600 rounded-full mr-3"></span>
+        Global Sales by Genre
+      </h3>
+      <div className="h-[350px] w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={data}
+              cx="50%"
+              cy="50%"
+              innerRadius={70}
+              outerRadius={100}
+              fill="#8884d8"
+              paddingAngle={4}
+              dataKey="sales"
+              stroke="none"
+            >
+              {data.map((_, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip 
+              formatter={(value: number) => [`${value.toFixed(1)}M`, 'Sales']}
+              contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}
+            />
+            <Legend iconType="circle" />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
