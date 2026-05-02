@@ -74,7 +74,8 @@ The frontend will be available at [http://localhost:5173](http://localhost:5173)
 
 1. **Upload Data:** Click the "Analyze Dataset" button or drop a CSV file into the upload area.
 2. **View Insights:** Explore the auto-generated charts showing Sales by Genre, Top Platforms, and Sales over Time.
-3. **State Persistence:** Your filter selections (Genre/Platform) are automatically saved to your browser's local storage and will be restored when you return.
+3. **Time-Series Forecasting:** View predicted future sales trends for the next 5 years based on historical performance.
+4. **State Persistence:** Your filter selections (Genre/Platform) are automatically saved to your browser's local storage and will be restored when you return.
 4. **AI Chat:** Use the floating chat button in the bottom right to ask questions in natural language.
 5. **Executive Summary:** Read the AI-generated executive summary at the top of the page.
 6. **Premium Experience:** Enjoy a modern, glassmorphism-based UI with dynamic mesh backgrounds and smooth transitions.

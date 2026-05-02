@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SalesByGenreChart } from './charts/SalesByGenreChart';
 import { TopPlatformsChart } from './charts/TopPlatformsChart';
-import { SalesOverTimeChart } from './charts/SalesOverTimeChart';
+import { ForecastChart } from './charts/ForecastChart';
 import { api, Filters } from '../lib/api';
 
 interface DashboardProps {
@@ -25,7 +25,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ refreshTrigger, filters })
     <div className="w-full max-w-5xl mx-auto mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 pb-12">
       <SalesByGenreChart refreshTrigger={refreshTrigger} filters={filters} />
       <TopPlatformsChart refreshTrigger={refreshTrigger} filters={filters} />
-      <SalesOverTimeChart refreshTrigger={refreshTrigger} filters={filters} />
+      <ForecastChart refreshTrigger={refreshTrigger} filters={filters} />
     </div>
   );
 };

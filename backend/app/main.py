@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from app.routers import health, upload, profile, data, chat, summary
+from app.routers import health, upload, profile, data, chat, summary, forecast
 from app.services.data_manager import init_db
 
 # Load environment variables
@@ -31,6 +31,7 @@ app.include_router(profile.router)
 app.include_router(data.router)
 app.include_router(chat.router)
 app.include_router(summary.router)
+app.include_router(forecast.router)
 
 if __name__ == "__main__":
     import uvicorn
