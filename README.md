@@ -1,18 +1,16 @@
-<<<<<<< HEAD
-# DataLens — [Your Team Name]
+# DataLens — Video Game Analytics
 
-> **Starter template:** This README is a template. Replace every section marked `[TODO]` with your actual content as you build. The quality of this README is part of your grade — see the grading rubric in the Final Project Specification.
+DataLens is a comprehensive analytics platform designed to provide interactive visualizations and AI-powered insights for global video game sales data. It serves business analysts and executives in the gaming industry by transforming raw CSV data into actionable intelligence through a modern, responsive dashboard and a natural language chat interface.
 
 ## Team
 
 - **Member 1:** [Name]
 - **Member 2:** [Name]
-- **Member 3 (if applicable):** [Name]
-- **Assigned Dataset:** [Dataset name and number, e.g., "Dataset 10 — Hotel Booking Demand"]
+- **Assigned Dataset:** Dataset 10 — Video Game Sales with Ratings
 
 ## Project Purpose
 
-[TODO — 2-3 sentences describing what DataLens does and who it serves. This should be accessible to someone who has not read the Final Project Specification.]
+DataLens empowers users to analyze complex video game market trends without needing technical data skills. By simply uploading a dataset, users can instantly view sales distributions by genre and platform, track performance over time, and interact with an AI assistant to uncover deeper narrative insights about market dynamics.
 
 ## Prerequisites
 
@@ -29,20 +27,17 @@ Before running this project, you need the following installed on your machine:
 
 ## LLM API Key Setup
 
-This application uses an LLM for the chat interface and executive summary features. You need an API key from at least one of the following providers:
+This application uses Google Gemini for the chat interface and executive summary features. You need an API key:
 
-- **Google Gemini (recommended — has a free tier):** Get a key at [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
-- **Anthropic Claude:** Get a key at [https://console.anthropic.com/](https://console.anthropic.com/)
-- **OpenAI:** Get a key at [https://platform.openai.com/api-keys](https://platform.openai.com/api-keys)
-- **Groq (has a free tier):** Get a key at [https://console.groq.com/keys](https://console.groq.com/keys)
+- **Google Gemini (recommended):** Get a key at [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
 
 ## Setup Instructions
 
 ### 1. Clone the repository
 
 ```bash
-git clone [your-repo-url]
-cd [repo-name]
+git clone https://github.com/malaikasuleman124-commits/datalensvideogames.git
+cd datalensvideogames
 ```
 
 ### 2. Configure environment variables
@@ -52,51 +47,45 @@ cp .env.example .env
 ```
 
 Open `.env` in a text editor and fill in:
-- `LLM_PROVIDER` — set to one of: `gemini`, `anthropic`, `openai`, `groq`
-- The corresponding API key variable for your chosen provider
+- `LLM_PROVIDER` — set to `gemini`
+- `GEMINI_API_KEY` — your Google Gemini API key
 
 ### 3. Install dependencies and start the application
 
-[TODO — Document the single command that starts both the backend and frontend. Example:
+You need to run both the backend and frontend simultaneously.
 
+#### Start the Backend:
 ```bash
-./start.sh
+# From the root directory
+uv run uvicorn backend.app.main:app --reload
 ```
+The backend will be available at [http://localhost:8000](http://localhost:8000).
 
-or
-
+#### Start the Frontend:
 ```bash
+# In a new terminal, from the frontend directory
+cd frontend
+npm install
 npm run dev
 ```
-
-The command must install all dependencies (Python via uv, Node via npm) and start both the backend (port 8000) and frontend (port 5173). Document the command here, and include the actual script or configuration in your repo.]
-
-### 4. Open the application
-
-Once started, visit [http://localhost:5173](http://localhost:5173) in your browser.
+The frontend will be available at [http://localhost:5173](http://localhost:5173).
 
 ## Usage
 
-[TODO — Brief usage walkthrough:
-1. Click "Upload" and select a CSV file
-2. Wait for data profiling to complete
-3. Explore the auto-generated dashboard
-4. Use the filters to narrow the view
-5. Ask questions in the chat panel
-6. Read the generated executive summary
-]
+1. **Upload Data:** Click the "Analyze Dataset" button or drop a CSV file (e.g., Video Game Sales with Ratings) into the upload area.
+2. **View Insights:** Explore the auto-generated charts showing Sales by Genre, Top Platforms, and Sales over Time.
+3. **AI Chat:** Use the floating chat button in the bottom right to ask questions like "Which genre is the most popular in Japan?" or "What were the top games in 2010?".
+4. **Executive Summary:** Read the AI-generated executive summary at the top of the page for a quick overview of the dataset's key trends.
 
 ## Running Tests
 
 ### Backend tests
-
 ```bash
 cd backend
 uv run pytest
 ```
 
 ### Frontend tests
-
 ```bash
 cd frontend
 npm test
@@ -104,58 +93,38 @@ npm test
 
 ## Troubleshooting
 
-[TODO — Document common issues and their fixes. Add to this section as you encounter problems during development. At minimum, address:
+**Problem:** `border-border` class does not exist / Blank page on load.
+**Fix:** This is usually a Tailwind CSS configuration issue. Ensure `tailwind.config.js` includes the standard shadcn/ui color mappings for `border`, `input`, etc. Alternatively, check `index.css` and ensure no invalid `@apply` rules are present.
 
-- Port already in use (8000 or 5173)
-- Python version mismatch
-- Node version mismatch
-- LLM API key issues or rate limits
-- CSV upload failures
-- Missing dependencies
+**Problem:** `404 models/gemini-1.5-flash is not found`.
+**Fix:** Update the model name in `backend/app/services/llm.py` to `gemini-1.5-flash-latest` or `gemini-1.5-flash` depending on current API availability.
 
-Example format:
+**Problem:** `Port 8000 already in use`.
+**Fix:** Stop any existing FastAPI or uvicorn processes. On Windows, use `netstat -ano | findstr :8000` to find the PID and `taskkill /PID <PID> /F` to stop it.
 
-**Problem:** `Port 8000 already in use`
-**Fix:** Find and stop the conflicting process: `lsof -i :8000` (macOS/Linux) or `netstat -ano | findstr :8000` (Windows)
-]
+**Problem:** CSV upload fails with "Internal Server Error".
+**Fix:** Ensure the backend is running and the database `datalens.db` is writable. Check backend logs for specific schema mismatch errors.
 
 ## Project Structure
 
 ```
 .
-├── .agent/skills/          # Agent Skills (6 mandatory skills, auto-loaded by coding agent)
-├── docs/
-│   ├── adrs/              # Architecture Decision Records
-│   └── report.md          # Final project reflection
-├── tasks/
-│   ├── plan.md            # Implementation plan
-│   └── todo.md            # Task breakdown
-├── backend/
-│   ├── app/               # FastAPI application code
-│   └── tests/             # pytest tests
-├── frontend/
-│   ├── src/               # React application code
-│   └── tests/             # Vitest tests
-├── SPEC.md                 # Project specification
-├── README.md               # This file
-├── .env.example           # Environment variable template
-└── pyproject.toml         # Python dependencies
+├── backend/               # FastAPI application code
+│   ├── app/               # Core logic, models, and routers
+│   └── tests/             # Backend test suite
+├── frontend/              # React/Vite application code
+│   ├── src/               # Components, pages, and hooks
+│   └── tests/             # Frontend test suite
+├── tasks/                 # Project planning and tracking
+├── SPEC.md                # Project specification
+├── README.md              # This file
+└── .env.example           # Environment variable template
 ```
-
-## Contribution Summary
-
-[TODO — Brief summary of who did what. This is used for grading team member contribution fairness.]
-
-- **[Member 1 Name]:** [Primary responsibilities]
-- **[Member 2 Name]:** [Primary responsibilities]
 
 ## Acknowledgments
 
-This project was developed as part of the Spring 2026 Strategic Generative AI for Business course. We used [Antigravity / Claude Code / Codex / Cursor] as our coding agent, guided by the Agent Skills framework authored by Addy Osmani (MIT licensed, available at [https://github.com/addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)).
+This project was developed as part of the Spring 2026 Strategic Generative AI for Business course. Developed using the Antigravity coding agent with the Agent Skills framework.
 
 ## License
 
-[TODO — Choose a license or remove this section.]
-=======
-# datalensvideogames
->>>>>>> f87905755347edaaeafe2499e23fafa1f0955d6d
+MIT License
