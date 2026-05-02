@@ -1,8 +1,15 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import health
+from app.routers import health, upload
+from app.services.data_manager import init_db
 
-app = FastAPI(title="DataLens API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+app = FastAPI(title="DataLens API", lifespan=lifespan)
 
 # Configure CORS for the frontend
 app.add_middleware(
@@ -15,6 +22,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(health.router)
+app.include_router(upload.router)
 
 if __name__ == "__main__":
     import uvicorn

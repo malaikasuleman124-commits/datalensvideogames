@@ -21,7 +21,10 @@ readme = "README.md"
 dependencies = [
     "fastapi",
     "uvicorn",
-    "pydantic"
+    "pydantic",
+    "python-multipart",
+    "sqlalchemy",
+    "pandas"
 ]
 
 [project.optional-dependencies]
