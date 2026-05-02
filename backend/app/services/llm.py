@@ -61,7 +61,7 @@ class ChatService:
         genai.configure(api_key=api_key)
         # Using gemini-1.5-flash for speed and cost efficiency
         self.model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash",
+            model_name="gemini-1.5-flash-latest",
             tools=[get_top_selling_games, get_genre_distribution, get_platform_stats],
             system_instruction="You are DataLens AI, a helpful assistant for analyzing video game sales data. Use the provided tools to answer user questions based on the dataset."
         )
