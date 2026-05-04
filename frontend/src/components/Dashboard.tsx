@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SalesByGenreChart } from './charts/SalesByGenreChart';
 import { TopPlatformsChart } from './charts/TopPlatformsChart';
-import { ForecastChart } from './charts/ForecastChart';
+import { ForecastChart } from './ForecastChart';
 import { api, Filters } from '../lib/api';
 
 interface DashboardProps {
