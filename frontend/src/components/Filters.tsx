@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { api, Filters as FilterType } from '../lib/api';
-import { Filter as FilterIcon, RotateCcw } from 'lucide-react';
+import { Filter as FilterIcon, RotateCcw, Save, Check } from 'lucide-react';
 
 interface FiltersProps {
   filters: FilterType;
   onGenreChange: (genre: string) => void;
   onPlatformChange: (platform: string) => void;
   onReset: () => void;
+  onSave: () => void;
   refreshTrigger: number;
 }
 
@@ -15,13 +16,21 @@ export const Filters: React.FC<FiltersProps> = ({
   onGenreChange, 
   onPlatformChange, 
   onReset,
+  onSave,
   refreshTrigger 
 }) => {
   const [options, setOptions] = useState<{ genres: string[], platforms: string[] }>({ genres: [], platforms: [] });
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     api.getFilters().then(setOptions).catch(console.error);
   }, [refreshTrigger]);
+
+  const handleSave = () => {
+    onSave();
+    setIsSaved(true);
+    setTimeout(() => setIsSaved(false), 2000);
+  };
 
   if (options.genres.length === 0 && options.platforms.length === 0) return null;
 
@@ -58,14 +67,38 @@ export const Filters: React.FC<FiltersProps> = ({
         </div>
       </div>
 
-      <button 
-        onClick={onReset}
-        className="flex items-center group text-gray-400 hover:text-red-500 transition-all pt-2 md:pt-4"
-        title="Reset Filters"
-      >
-        <RotateCcw className="h-4 w-4 mr-2 group-hover:rotate-[-45deg] transition-transform" />
-        <span className="text-xs font-bold uppercase tracking-wider">Reset</span>
-      </button>
+      <div className="flex items-center space-x-4 shrink-0 pt-2 md:pt-4">
+        <button 
+          onClick={handleSave}
+          className={`flex items-center transition-all px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider ${
+            isSaved 
+              ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400' 
+              : 'bg-blue-100 text-blue-600 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-800/50'
+          }`}
+          title="Save Dashboard Filters"
+        >
+          {isSaved ? (
+            <>
+              <Check className="h-4 w-4 mr-1.5" />
+              Saved
+            </>
+          ) : (
+            <>
+              <Save className="h-4 w-4 mr-1.5" />
+              Save
+            </>
+          )}
+        </button>
+        
+        <button 
+          onClick={onReset}
+          className="flex items-center group text-gray-400 hover:text-red-500 transition-all"
+          title="Reset Filters"
+        >
+          <RotateCcw className="h-4 w-4 mr-1.5 group-hover:rotate-[-45deg] transition-transform" />
+          <span className="text-xs font-bold uppercase tracking-wider">Reset</span>
+        </button>
+      </div>
     </div>
   );
 };

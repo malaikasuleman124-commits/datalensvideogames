@@ -5,11 +5,12 @@ import { Dashboard } from '../components/Dashboard';
 import { Filters } from '../components/Filters';
 import { ChatPanel } from '../components/ChatPanel';
 import { ExecutiveSummary } from '../components/ExecutiveSummary';
+import { DataProfile } from '../components/DataProfile';
 import { useDataset } from '../hooks/useDataset';
 
 export const MainPage: React.FC = () => {
   const [refreshStats, setRefreshStats] = useState(0);
-  const { filters, setGenre, setPlatform, resetFilters } = useDataset();
+  const { filters, setGenre, setPlatform, resetFilters, saveFilters } = useDataset();
 
   const handleUploadSuccess = () => {
     setRefreshStats((prev) => prev + 1);
@@ -47,12 +48,14 @@ export const MainPage: React.FC = () => {
             onGenreChange={setGenre} 
             onPlatformChange={setPlatform} 
             onReset={resetFilters}
+            onSave={saveFilters}
             refreshTrigger={refreshStats}
           />
         </div>
 
         <section className="w-full space-y-8">
           <SummaryStats refreshTrigger={refreshStats} filters={filters} />
+          <DataProfile refreshTrigger={refreshStats} filters={filters} />
           <Dashboard refreshTrigger={refreshStats} filters={filters} />
         </section>
       </main>

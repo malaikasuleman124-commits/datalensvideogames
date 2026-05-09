@@ -9,7 +9,7 @@ export const useDataset = () => {
     return saved ? JSON.parse(saved) : { genre: '', platform: '' };
   });
 
-  useEffect(() => {
+  const saveFilters = useCallback(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(filters));
   }, [filters]);
 
@@ -30,5 +30,6 @@ export const useDataset = () => {
     setGenre,
     setPlatform,
     resetFilters,
+    saveFilters,
   };
 };

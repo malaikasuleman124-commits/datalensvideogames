@@ -36,7 +36,7 @@ def parse_and_store_csv(file_path: str):
             record = GameSaleRecord(
                 name=row.get('name'),
                 platform=row.get('platform'),
-                year_of_release=row.get('year_of_release'),
+                year_of_release=row.get('year'),
                 genre=row.get('genre'),
                 publisher=row.get('publisher'),
                 na_sales=row.get('na_sales', 0.0),

@@ -61,3 +61,30 @@ def get_filters(db: Session = Depends(get_db)):
         "genres": sorted([r.genre for r in genres if r.genre]),
         "platforms": sorted([r.platform for r in platforms if r.platform])
     }
+
+@router.get("/critic-scores")
+def get_critic_scores(genre: str = None, platform: str = None, db: Session = Depends(get_db)):
+    query = db.query(GameSaleRecord.critic_score).filter(GameSaleRecord.critic_score != None)
+    if genre:
+        query = query.filter(GameSaleRecord.genre == genre)
+    if platform:
+        query = query.filter(GameSaleRecord.platform == platform)
+        
+    results = query.all()
+    
+    # Initialize bins
+    bins = {f"{i}-{i+9}": 0 for i in range(0, 100, 10)}
+    bins["100"] = 0
+    
+    for r in results:
+        score = float(r.critic_score)
+        if score == 100:
+            bins["100"] += 1
+        elif score >= 0 and score < 100:
+            bin_lower = int(score // 10) * 10
+            bins[f"{bin_lower}-{bin_lower+9}"] += 1
+            
+    # Remove empty bins and format output
+    output = [{"bin": k, "count": v} for k, v in bins.items()]
+    return output
+

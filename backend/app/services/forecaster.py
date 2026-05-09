@@ -25,8 +25,11 @@ class Forecaster:
             data = {}
             for r in records:
                 if r.year_of_release:
-                    year = int(r.year_of_release)
-                    data[year] = data.get(year, 0) + r.global_sales
+                    try:
+                        year = int(r.year_of_release)
+                        data[year] = data.get(year, 0) + r.global_sales
+                    except (ValueError, TypeError):
+                        continue
             
             if len(data) < 2:
                 return [{"year": y, "sales": s, "is_predicted": False} for y, s in sorted(data.items())]
@@ -35,7 +38,6 @@ class Forecaster:
             sales = [data[y] for y in years]
             
             # Simple Linear Regression: y = mx + c
-            # Using numpy for the fit
             x = np.array(years)
             y = np.array(sales)
             
@@ -55,7 +57,6 @@ class Forecaster:
             for i in range(1, 6):
                 next_year = last_year + i
                 predicted_sales = m * next_year + c
-                # Ensure we don't predict negative sales
                 predicted_sales = max(0, predicted_sales)
                 
                 result.append({

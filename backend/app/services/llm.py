@@ -61,7 +61,7 @@ class ChatService:
         genai.configure(api_key=api_key)
         # Using gemini-1.5-flash for speed and cost efficiency
         self.model = genai.GenerativeModel(
-            model_name="gemini-1.5-flash-latest",
+            model_name="gemini-3.1-flash-lite-preview",
             tools=[get_top_selling_games, get_genre_distribution, get_platform_stats],
             system_instruction="You are DataLens AI, a helpful assistant for analyzing video game sales data. Use the provided tools to answer user questions based on the dataset."
         )
@@ -86,14 +86,14 @@ class ChatService:
                 return "AI Summary is currently unavailable. Please check your API configuration."
         
         prompt = f"""
-        Provide a concise, professional 2-3 sentence executive summary of this video game sales dataset.
+        Provide a professional executive summary of this video game sales dataset highlighting key patterns and insights.
         Key Stats:
         - Total Games: {profile_data.get('total_games')}
         - Year Range: {profile_data.get('min_year')} to {profile_data.get('max_year')}
         - Total Global Sales: {profile_data.get('total_global_sales')} million units
         - Top Genres: {', '.join([g.get('genre', 'Unknown') for g in genre_stats[:3]])}
         
-        The summary should sound insightful, professional, and highlight the scale or dominant trends in the data. 
+        The summary should sound insightful and professional. Identify the dominant trends and patterns in the data based on the provided stats. Write 3-4 cohesive sentences.
         Do not use markdown formatting like bolding or bullet points. Just return plain text.
         """
         try:
